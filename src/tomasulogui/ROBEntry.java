@@ -14,6 +14,21 @@ public class ROBEntry {
 
   IssuedInst.INST_TYPE opcode;
 
+  // our vars
+  int storeAddr;
+  int storeAddrTag;
+  boolean storeAddrValid;
+
+  int storeData;
+  int storeDataTag;
+  boolean storeDataValid;
+
+  boolean busy; // gets set by the FU?
+  boolean branch;
+  int bTgtAddr;
+
+  boolean writeValid;
+
   public ROBEntry(ReorderBuffer buffer) {
     rob = buffer;
   }
@@ -62,12 +77,53 @@ public class ROBEntry {
   public void copyInstData(IssuedInst inst, int frontQ) {
     instPC = inst.getPC();
     inst.setRegDestTag(frontQ);
+    
+    // update the instruction
+    inst.setPC(instPC);
+    
+    // update the field
+    opcode = inst.getOpcode();
+    writeReg = inst.getRegDest();
+    branch = inst.isBranch();
+    bTgtAddr = inst.getBranchTgt();
+    predictTaken = inst.getBranchPrediction();
+
+
+    if (isStore() ) {
+      // storeAddr = inst.
+    }
+
+
 
     // TODO - This is a long and complicated method, probably the most complex
     // of the project.  It does 2 things:
     // 1. update the instruction, as shown in 2nd line of code above
     // 2. update the fields of the ROBEntry, as shown in the 1st line of code above
 
+  }
+
+  public boolean isStore() {
+      return opcode == IssuedInst.INST_TYPE.STORE;
+  }
+
+  public boolean isBusy() {
+    return busy;
+  }
+
+  public void setBusy(boolean b) {
+      busy = b;
+  }
+    
+  public boolean isBranch() {
+    return branch;
+  }
+
+  public int getStoreData() {
+      return storeData;
+  }
+
+  public int getbTgtAddr() {
+    return bTgtAddr;
   }
 
 }

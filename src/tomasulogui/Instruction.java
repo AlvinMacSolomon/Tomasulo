@@ -4,24 +4,24 @@ public class Instruction {
   String name = "";
   int opcode = 0;
 
-  public static final int INST_LW = 0;
-  public static final int INST_SW = 1;
+  public static final int INST_LW = 0;///
+  public static final int INST_SW = 1;///
   public static final int INST_LWC1 = 2;
   public static final int INST_SWC1 = 3;
-  public static final int INST_ADD = 4;
-  public static final int INST_ADDI = 5;
-  public static final int INST_SUB = 6;
-  public static final int INST_MUL = 7;
-  public static final int INST_DIV = 8;
-  public static final int INST_AND = 9;
-  public static final int INST_ANDI = 10;
-  public static final int INST_OR = 11;
-  public static final int INST_ORI = 12;
-  public static final int INST_XOR = 13;
-  public static final int INST_XORI = 14;
-  public static final int INST_SLL = 15;
-  public static final int INST_SRL = 16;
-  public static final int INST_SRA = 17;
+  public static final int INST_ADD = 4;///
+  public static final int INST_ADDI = 5;///
+  public static final int INST_SUB = 6;///
+  public static final int INST_MUL = 7;///
+  public static final int INST_DIV = 8;///
+  public static final int INST_AND = 9;///
+  public static final int INST_ANDI = 10;///
+  public static final int INST_OR = 11;///
+  public static final int INST_ORI = 12;///
+  public static final int INST_XOR = 13;///
+  public static final int INST_XORI = 14;///
+  public static final int INST_SLL = 15;///
+  public static final int INST_SRL = 16;///
+  public static final int INST_SRA = 17;///
   public static final int INST_ADD_S = 18;
   public static final int INST_SUB_S = 19;
   public static final int INST_MUL_S = 20;
@@ -36,23 +36,23 @@ public class Instruction {
   public static final int INST_C_NE_S = 29;
 //  public static final int INST_BEQ = 30;
 //  public static final int INST_BNE = 31;
-  public static final int INST_BEQ = 32;
-  public static final int INST_BNE = 33;
-  public static final int INST_BLTZ = 34;
-  public static final int INST_BLEZ = 35;
-  public static final int INST_BGTZ = 36;
-  public static final int INST_BGEZ = 37;
+  public static final int INST_BEQ = 32;///
+  public static final int INST_BNE = 33;///
+  public static final int INST_BLTZ = 34;///
+  public static final int INST_BLEZ = 35;///
+  public static final int INST_BGTZ = 36;///
+  public static final int INST_BGEZ = 37;///
   public static final int INST_BC1T = 38;
   public static final int INST_BC1F = 39;
-  public static final int INST_J = 40;
-  public static final int INST_JR = 41;
-  public static final int INST_JAL = 42;
-  public static final int INST_JALR = 43;
+  public static final int INST_J = 40;///
+  public static final int INST_JR = 41;///
+  public static final int INST_JAL = 42;///
+  public static final int INST_JALR = 43;///
   public static final int INST_MTC1 = 44;
   public static final int INST_MFC1 = 45;
 
-  public static final int INST_NOP = 62;
-  public static final int INST_HALT = 63;
+  public static final int INST_NOP = 62;///
+  public static final int INST_HALT = 63;///
 
   public Instruction() {
 

@@ -14,7 +14,7 @@ public class IssueUnit {
 
     public void execCycle() {
       // an execution cycle involves:
-      // 1. checking if ROB and Reservation Station avail
+      // 1. checking if ROB and Reservation Station available
       // 2. issuing to reservation station, if no structural hazard
 
       // to issue, we make an IssuedInst, filling in what we know

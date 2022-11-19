@@ -1,5 +1,11 @@
 package tomasulogui;
 
+// questions for g
+
+// what is the robSlot
+// what is RegisterStat
+// what makes copyInst complex?
+
 public class ReorderBuffer {
   public static final int size = 30;
   int frontQ = 0;
@@ -42,17 +48,41 @@ public class ReorderBuffer {
     // 2. isBranch w/ mispredict
     // 3. isStore
     ROBEntry retiree = buff[frontQ];
-
+    
     if (retiree == null) {
       return false;
     }
-
+    
+    
+    
     if (retiree.isHaltOpcode()) {
       halted = true;
       return true;
     }
 
     boolean shouldAdvance = true;
+
+    // this line should go somewhere down there
+    if (retiree.isBranch() && retiree.branchMispredicted()) {
+      // flush out a bunch of stuff
+      // fetch branch dest?
+      shouldAdvance = false; // ??
+
+      simulator.setPC(retiree.getInstPC() + 4 + (retiree.getPredictTaken() ? 0 : retiree.getbTgtAddr()));
+    } else if (retiree.isStore()) {
+        // store to memeory
+        // figure out how to put this into memory
+        retiree.getStoreData();
+    } else {
+        regs.regs[retiree.getWriteReg()] = retiree.getWriteValue();
+    }
+
+    
+    retiree.setBusy(false);
+
+
+
+
 
     // TODO - this is where you look at the type of instruction and
     // figure out how to retire it properly

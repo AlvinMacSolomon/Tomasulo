@@ -77,13 +77,17 @@ public class ROBEntry {
   public void copyInstData(IssuedInst inst, int frontQ) {
     instPC = inst.getPC();
     inst.setRegDestTag(frontQ);
-    
+
     // update the instruction
-    inst.setPC(instPC);
+      // for the source regs
+      // 1. it's either in the register file
+      // 2. it could be in the rob but complete 
+      // 3. it could also be in the rob but not complete
     
     // update the field
-    opcode = inst.getOpcode();
     writeReg = inst.getRegDest();
+
+    opcode = inst.getOpcode();
     branch = inst.isBranch();
     bTgtAddr = inst.getBranchTgt();
     predictTaken = inst.getBranchPrediction();

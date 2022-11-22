@@ -78,6 +78,8 @@ public class ROBEntry {
     instPC = inst.getPC();
     inst.setRegDestTag(frontQ);
 
+    rob.simulator.btb.predictBranch(inst);
+
     // update the instruction
       // for the source regs
       // 1. it's either in the register file
@@ -86,9 +88,9 @@ public class ROBEntry {
     
     // update the field
     writeReg = inst.getRegDest();
-
+    branch = inst.determineIfBranch();
     opcode = inst.getOpcode();
-    branch = inst.isBranch();
+    branch = inst.determineIfBranch();
     bTgtAddr = inst.getBranchTgt();
     predictTaken = inst.getBranchPrediction();
 

@@ -1,11 +1,5 @@
 package tomasulogui;
 
-// questions for g
-
-// what is the robSlot
-// what is RegisterStat
-// what makes copyInst complex?
-
 public class ReorderBuffer {
   public static final int size = 30;
   int frontQ = 0;
@@ -68,13 +62,19 @@ public class ReorderBuffer {
       // fetch branch dest?
       shouldAdvance = false; // ??
 
-      simulator.setPC(retiree.getInstPC() + 4 + (retiree.getPredictTaken() ? 0 : retiree.getbTgtAddr()));
+      // simulator.setPC(retiree.getPredictTaken() ? retiree.getInstPC() + 4 : retiree.getbTgtAddr());
+
     } else if (retiree.isStore()) {
-        // store to memeory
+        // store to memory
         // figure out how to put this into memory
         retiree.getStoreData();
     } else {
+
+      // if the current slot in the rob is also the tag of the destination register in the register file robslot, write to it and clear the robslot , else do nothing
+      if (frontQ == regs.robSlot[retiree.getWriteReg()]) {
         regs.regs[retiree.getWriteReg()] = retiree.getWriteValue();
+        regs.robSlot[retiree.getWriteReg()] = -1;
+      }
     }
 
     

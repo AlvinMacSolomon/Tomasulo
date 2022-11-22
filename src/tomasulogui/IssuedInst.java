@@ -171,6 +171,7 @@ public class IssuedInst {
           opcode == INST_TYPE.JAL ||
           opcode == INST_TYPE.JR ||
           opcode == INST_TYPE.JALR) {
+        this.setBranch();
         return true;
       }
       else {

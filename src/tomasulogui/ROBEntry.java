@@ -99,6 +99,14 @@ public class ROBEntry {
       // storeAddr = inst.
     }
 
+    // operand 1 (copy this for operand 2?)
+    if (rob.simulator.regs.robSlot[inst.getRegSrc1()] == -1) {
+      writeValue = rob.simulator.regs.getReg(inst.getRegSrc1());
+      writeValid = true;
+    } else {
+      // if rob has valid data at tag, get data from reorder buffer
+      // else send the tag
+    }
 
 
     // TODO - This is a long and complicated method, probably the most complex
@@ -124,8 +132,20 @@ public class ROBEntry {
     return branch;
   }
 
+  public int getStoreAddr() {
+    return storeAddr;
+  }
+
+  public boolean getStoreAddrValid() {
+    return storeAddrValid;
+  }
+
   public int getStoreData() {
-      return storeData;
+    return storeData;
+  }
+  
+  public boolean getStoreDataValid() {
+    return storeDataValid;
   }
 
   public int getbTgtAddr() {

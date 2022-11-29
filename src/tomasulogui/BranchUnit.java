@@ -11,6 +11,19 @@ public class BranchUnit
 
     public int calculateResult(int station) {
         // todo fill in
+        ReservationStation s = stations[station];
+        switch (s.getFunction()) {
+            case BEQ:
+                // s.
+            case BNE:
+            case BLTZ:
+            case BLEZ:
+            case BGEZ:
+            case BGTZ:
+                break;
+            default:
+                break;
+        }
         return 0;
     }
 

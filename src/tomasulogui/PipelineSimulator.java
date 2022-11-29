@@ -390,6 +390,14 @@ public class PipelineSimulator {
 
       // hint: start with divider, and give it first chance of getting CDB
 
+      //    fill this in and copy for every FU
+      // if (multiplier.isRequestingWB()) {
+      //   multiplier.setCanWB();
+      //   cdb.setDataValid( );
+      //   cdb.setDataTag( );
+      //   cdb.setDataValue( );
+      // }
+
     }
 
     public static void main(String[] args) {

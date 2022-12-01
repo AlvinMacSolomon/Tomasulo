@@ -58,22 +58,17 @@ public class ReorderBuffer {
 
     // this line should go somewhere down there
     if (retiree.isBranch() && retiree.branchMispredicted()) {
-      shouldAdvance = false;      
-      simulator.setPC(retiree.getPredictTaken() ? retiree.getInstPC() + 4 : retiree.getbTgtAddr());
-      java.util.Arrays.fill(buff, -1);
-    } else if (retiree.isStore()) {
-      if (retiree.getStoreAddrValid() && retiree.getStoreDataValid()) {
+        shouldAdvance = false;      
+        simulator.setPC(retiree.getPredictTaken() ? retiree.getInstPC() + 4 : retiree.getbTgtAddr());
+        java.util.Arrays.fill(buff, -1);
+        frontQ = rearQ = 0;
+        simulator.squashAllInsts();
+    } else if (retiree.isStore() && retiree.getStoreAddrValid() && retiree.getStoreDataValid()) {
         simulator.getMemory().setIntDataAtAddr(retiree.getStoreAddr(), retiree.getStoreData());
-      } else {
-        // stall it??????????????????????[for good measure][repeat as neccesary]
-      }
-
-    } else {
-      // if the current slot in the rob is also the tag of the destination register in the register file robslot, write to it and clear the robslot , else do nothing
-      if (frontQ == regs.robSlot[retiree.getWriteReg()]) {
+    } else if (frontQ == regs.robSlot[retiree.getWriteReg()]) {
+        // if the current slot in the rob is also the tag of the destination register in the register file robslot, write to it and clear the robslot, else do nothing
         regs.regs[retiree.getWriteReg()] = retiree.getWriteValue();
         regs.robSlot[retiree.getWriteReg()] = -1;
-      }
     }
 
     

@@ -17,4 +17,8 @@ public class IntAlu extends FunctionalUnit{
   public int getExecCycles() {
     return EXEC_CYCLES;
   }
+
+  public void squashAll() {
+    stations[0] = stations[1] = null;
+  }
 }

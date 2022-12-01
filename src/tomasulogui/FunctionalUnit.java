@@ -28,4 +28,10 @@ public abstract class FunctionalUnit {
   // todo - fill in reservation station (if available) with data from inst
   }
 
+  public int nextAvailRS() {
+      if (stations[0] == null) return 0;
+      if (stations[1] == null) return 1;
+      return -1; // return -1 if there are no available
+  }
+
 }

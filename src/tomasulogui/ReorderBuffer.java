@@ -65,14 +65,15 @@ public class ReorderBuffer {
         simulator.squashAllInsts();
     } else if (retiree.isStore() && retiree.getStoreAddrValid() && retiree.getStoreDataValid()) {
         simulator.getMemory().setIntDataAtAddr(retiree.getStoreAddr(), retiree.getStoreData());
-    } else if (frontQ == regs.robSlot[retiree.getWriteReg()]) {
-        // if the current slot in the rob is also the tag of the destination register in the register file robslot, write to it and clear the robslot, else do nothing
-        regs.regs[retiree.getWriteReg()] = retiree.getWriteValue();
-        regs.robSlot[retiree.getWriteReg()] = -1;
+    } else {
+        if (retiree.isBusy()) shouldAdvance = false;
+        else if (frontQ == regs.robSlot[retiree.getWriteReg()]) { // if this tag is assigned to the destination register, write to it and clear the robslot
+          regs.regs[retiree.getWriteReg()] = retiree.getWriteValue();
+          regs.robSlot[retiree.getWriteReg()] = -1;
+        }
     }
 
     
-    retiree.setBusy(false);
 
 
 

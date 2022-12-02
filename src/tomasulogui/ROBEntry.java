@@ -75,7 +75,7 @@ public class ROBEntry {
   }
 
   public void copyInstData(IssuedInst inst, int frontQ) {
-    instPC = inst.getPC();
+    instPC = inst.getPC(); 
     inst.setRegDestTag(frontQ);
 
     rob.simulator.btb.predictBranch(inst);
@@ -93,6 +93,7 @@ public class ROBEntry {
     branch = inst.determineIfBranch();
     bTgtAddr = inst.getBranchTgt();
     predictTaken = inst.getBranchPrediction();
+    busy = true;
 
 
     if (isStore() ) {

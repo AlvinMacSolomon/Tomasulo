@@ -26,26 +26,22 @@ public class IssueUnit {
       }
 
       issuee = IssuedInst.createIssuedInst(simulator.getMemory().getInstAtAddr(simulator.getPC()));
+      issuee.setPC(simulator.getPC());
+      simulator.getPCStage().incrPC(); // eventually will be changed bc we'll check the BTB 
       // PERFECT
       switch (issuee.getOpcode()) {
-          case NOP, HALT, STORE:
-            t = EXEC_TYPE.NONE;
-            break;
-          case MUL:
-            t = EXEC_TYPE.MULT;
-            break;
-          case DIV:
-            t = EXEC_TYPE.DIV;
-            break;
-          case ADD, ADDI, SUB, AND, ANDI, OR, ORI, XOR, XORI, SLL, SRL, SRA:
-            t = EXEC_TYPE.ALU;
-            break;
-          case LOAD:
-            t = EXEC_TYPE.LOAD;
-            break;
-          case J, JAL, JR, JALR, BEQ, BNE, BLTZ, BLEZ, BGTZ, BGEZ:
-            t = EXEC_TYPE.BRANCH;
-            break;
+          case NOP, HALT, STORE ->
+              t = EXEC_TYPE.NONE;
+          case MUL ->
+              t = EXEC_TYPE.MULT;
+          case DIV ->
+              t = EXEC_TYPE.DIV;
+          case ADD, ADDI, SUB, AND, ANDI, OR, ORI, XOR, XORI, SLL, SRL, SRA ->
+              t = EXEC_TYPE.ALU;
+          case LOAD ->
+              t = EXEC_TYPE.LOAD;
+          case J, JAL, JR, JALR, BEQ, BNE, BLTZ, BLEZ, BGTZ, BGEZ ->
+              t = EXEC_TYPE.BRANCH;
       }
       // increment pc
 

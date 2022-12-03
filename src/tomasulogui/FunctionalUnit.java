@@ -24,7 +24,17 @@ public abstract class FunctionalUnit {
 
 
 
-  public void acceptIssue(IssuedInst inst) {
+  public boolean acceptIssue(IssuedInst inst) {
+    if (stations[0] != null && stations[1] != null) return false;
+    int rs = stations[0] == null ? 0 : 1; // determine which rs the instruction goes to
+    stations[rs].loadInst(inst);
+
+
+
+
+
+    return true;
+
   // todo - fill in reservation station (if available) with data from inst
   }
 

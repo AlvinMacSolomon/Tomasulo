@@ -1,5 +1,7 @@
 package tomasulogui;
 
+// ISSUE. XEUTECE. COMPLETE.
+
 public class ReorderBuffer {
   public static final int size = 30;
   int frontQ = 0;
@@ -66,7 +68,7 @@ public class ReorderBuffer {
     } else if (retiree.isStore() && retiree.getStoreAddrValid() && retiree.getStoreDataValid()) {
         simulator.getMemory().setIntDataAtAddr(retiree.getStoreAddr(), retiree.getStoreData());
     } else {
-        if (retiree.isBusy()) shouldAdvance = false;
+        if (!retiree.writeValid) shouldAdvance = false;
         else if (frontQ == regs.robSlot[retiree.getWriteReg()]) { // if this tag is assigned to the destination register, write to it and clear the robslot
           regs.regs[retiree.getWriteReg()] = retiree.getWriteValue();
           regs.robSlot[retiree.getWriteReg()] = -1;
@@ -91,21 +93,28 @@ public class ReorderBuffer {
 
     return false;
   }
-
+  // TODO - call this somewhere
   public void readCDB(CDB cdb) {
-    // check entire CDB for someone waiting on this data
+    // check entire ROB for someone waiting on this data
+    int t = cdb.dataTag;
+    if (t != -1) {
+      buff[t].writeValue = cdb.dataValue;
+      buff[t].writeValid = true;
+    }
+
+
     // could be destination reg
-    // could be store address source
+    // could be store address source.. wer're gonna pretend this line doesn't exist for now
 
     // TODO body of method
   }
 
   public void updateInstForIssue(IssuedInst inst) {
     // the task is to simply annotate the register fields
-    // the dest reg will be assigned a tag, which is just our slot#
+    // the dest reg will be assigned a tag, which is just our slot# a.k.a. robslot
     // all src regs will either be assigned a tag, read from reg, or forwarded from ROB
 
-    // TODO - possibly nothing if you use my model
+    // TODONE - possibly nothing if you use my model
     // I use the call to copyInstData below to do 2 things:
     // 1. update the Issued Inst
     // 2. fill in the ROB entry

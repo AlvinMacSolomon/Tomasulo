@@ -19,55 +19,39 @@ public class IssueUnit {
       // 1. checking if ROB and Reservation Station available
       // 2. issuing to reservation station, if no structural hazard
 
-      int rs = -1;
+      boolean stall = false;
 
       if (simulator.getROB().isFull()) {
-
+          // stall
       }
 
       issuee = IssuedInst.createIssuedInst(simulator.getMemory().getInstAtAddr(simulator.getPC()));
       issuee.setPC(simulator.getPC());
-      simulator.getPCStage().incrPC(); // eventually will be changed bc we'll check the BTB 
-      // PERFECT
+      // nearly PERFECT
       switch (issuee.getOpcode()) {
-          case NOP, HALT, STORE ->
-              t = EXEC_TYPE.NONE;
-          case MUL ->
-              t = EXEC_TYPE.MULT;
-          case DIV ->
-              t = EXEC_TYPE.DIV;
-          case ADD, ADDI, SUB, AND, ANDI, OR, ORI, XOR, XORI, SLL, SRL, SRA ->
-              t = EXEC_TYPE.ALU;
-          case LOAD ->
-              t = EXEC_TYPE.LOAD;
-          case J, JAL, JR, JALR, BEQ, BNE, BLTZ, BLEZ, BGTZ, BGEZ ->
-              t = EXEC_TYPE.BRANCH;
-      }
-      // increment pc
-
-      switch (t) {
+        case ADD, ADDI, SUB, AND, ANDI, OR, ORI, XOR, XORI, SLL, SRL, SRA:
+            if (!simulator.alu.acceptIssue(issuee)) {
+              stall = false;
+            } 
+            break;
+        case MUL:
+            break;
+        case DIV:
+            break;
         case LOAD:
-          break;
-        case ALU:
-          rs = simulator.alu.nextAvailRS();
-          if (rs != -1) {
-            
+            break;
+        case J, JAL, JR, JALR, BEQ, BNE, BLTZ, BLEZ, BGTZ, BGEZ:
+            break;
+        default: //case NOP, HALT, STORE:
+            break;
           }
-          break;
-        case MULT:
-          rs = simulator.multiplier.nextAvailRS();
-          if (rs != -1) {
-            
-          }
-          break;
-        case BRANCH:
-          // set the program counter if it is a branch
-          break;
-        default:
+          // increment pc
           
+          
+          
+          if (!stall) { // we might need to increment in case things become bad
+            simulator.getROB().updateInstForIssue(issuee);
       }
-
-      simulator.getROB().updateInstForIssue(issuee);
 
       // to issue, we make an IssuedInst, filling in what we know
       // We check the BTB, and put prediction if branch, updating PC

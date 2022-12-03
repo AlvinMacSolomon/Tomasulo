@@ -5,7 +5,7 @@ public class ROBEntry {
 
   // TODO - add many more fields into entry
   // I deleted most, and only kept those necessary to compile GUI
-  boolean complete = false;
+  boolean complete = false; // TODO- set
   boolean predictTaken = false;
   boolean mispredicted = false;
   int instPC = -1;
@@ -84,7 +84,28 @@ public class ROBEntry {
       // for the source regs
       // 1. it's either in the register file
       // 2. it could be in the rob but complete 
-      // 3. it could also be in the rob but not complete
+      // 3. it could also be in the rob but not complete bc fu is still working (in which case only send tag)
+
+      int tag1 = rob.getTagForReg(inst.regSrc1);
+      if (inst.regSrc1Used && tag1 != -1){
+          inst.setRegSrc1Value(tag1);
+          inst.setRegSrc1Valid();
+      } else if (inst.regSrc1Used) {
+          if (rob.getEntryByTag(tag1).writeValid) {
+            inst.setRegSrc1Value(rob.getEntryByTag(tag1).getWriteValue());
+            inst.setRegSrc1Valid();
+          } else inst.setRegSrc1Tag(tag1); // send the tag
+      }
+      int tag2 = rob.getTagForReg(inst.regSrc2);
+      if (inst.regSrc2Used && tag2 != -1){
+          inst.setRegSrc2Value(tag2);
+          inst.setRegSrc2Valid();
+      } else if (inst.regSrc2Used) {
+          if (rob.getEntryByTag(tag1).writeValid) {
+            inst.setRegSrc1Value(rob.getEntryByTag(tag2).getWriteValue());
+            inst.setRegSrc2Valid();
+          } else inst.setRegSrc2Tag(tag2); // send the tag
+      }
     
     // update the field
     writeReg = inst.getRegDest();

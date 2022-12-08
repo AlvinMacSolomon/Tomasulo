@@ -52,13 +52,15 @@ public class ReservationStation {
   }
 
   public void loadInst(IssuedInst inst) {
-    // TODO add code to insert inst into reservation station
+    // insert inst into reservation station
+    boolean i = inst.getImmediate() != -1; //cool
     data1 = inst.regSrc1;
-    data2 = inst.regSrc2;
+    data2 = i ? inst.immediate : inst.regSrc2;
     tag1 = inst.regSrc1Tag;
     tag2 = inst.regSrc2Tag;
     data1Valid = inst.regSrc1Valid;
-    data2Valid = inst.regSrc2Valid;
+    data2Valid = i ? true : inst.regSrc2Valid;
+    destTag = inst.regDestTag;
     if (inst.isBranch()) {
       predictedTaken = inst.getBranchPrediction();
       address = inst.getBranchTgt();

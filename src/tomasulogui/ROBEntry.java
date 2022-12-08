@@ -5,7 +5,7 @@ public class ROBEntry {
 
   // TODO - add many more fields into entry
   // I deleted most, and only kept those necessary to compile GUI
-  boolean complete = false; // TODO- set
+  boolean complete = false;
   boolean predictTaken = false;
   boolean mispredicted = false;
   int instPC = -1;
@@ -23,11 +23,8 @@ public class ROBEntry {
   int storeDataTag;
   boolean storeDataValid;
 
-  boolean busy; // gets set by the FU?
   boolean branch;
   int bTgtAddr;
-
-  boolean writeValid;
 
   public ROBEntry(ReorderBuffer buffer) {
     rob = buffer;
@@ -86,25 +83,29 @@ public class ROBEntry {
       // 2. it could be in the rob but complete 
       // 3. it could also be in the rob but not complete bc fu is still working (in which case only send tag)
 
-      int tag1 = rob.getTagForReg(inst.regSrc1);
-      if (inst.regSrc1Used && tag1 != -1){
-          inst.setRegSrc1Value(tag1);
-          inst.setRegSrc1Valid();
-      } else if (inst.regSrc1Used) {
-          if (rob.getEntryByTag(tag1).writeValid) {
-            inst.setRegSrc1Value(rob.getEntryByTag(tag1).getWriteValue());
+      if (inst.regSrc1Used) {
+        int tag = rob.getTagForReg(inst.regSrc1);
+        if (tag == -1){
+            inst.setRegSrc1Value(rob.regs.getReg(inst.regSrc1));
             inst.setRegSrc1Valid();
-          } else inst.setRegSrc1Tag(tag1); // send the tag
+        } else {
+            if (rob.getEntryByTag(tag).complete) {
+              inst.setRegSrc1Value(rob.getEntryByTag(tag).getWriteValue());
+              inst.setRegSrc1Valid();
+            } else inst.setRegSrc1Tag(tag); // send the tag
+        }
       }
-      int tag2 = rob.getTagForReg(inst.regSrc2);
-      if (inst.regSrc2Used && tag2 != -1){
-          inst.setRegSrc2Value(tag2);
-          inst.setRegSrc2Valid();
-      } else if (inst.regSrc2Used) {
-          if (rob.getEntryByTag(tag1).writeValid) {
-            inst.setRegSrc1Value(rob.getEntryByTag(tag2).getWriteValue());
+      if (inst.regSrc2Used) {
+        int tag = rob.getTagForReg(inst.regSrc2);
+        if (tag == -1){
+            inst.setRegSrc2Value(rob.regs.getReg(inst.regSrc2));
             inst.setRegSrc2Valid();
-          } else inst.setRegSrc2Tag(tag2); // send the tag
+        } else {
+            if (rob.getEntryByTag(tag).complete) {
+              inst.setRegSrc1Value(rob.getEntryByTag(tag).getWriteValue());
+              inst.setRegSrc2Valid();
+            } else inst.setRegSrc2Tag(tag); // send the tag
+        }
       }
     
     // update the field
@@ -114,20 +115,11 @@ public class ROBEntry {
     branch = inst.determineIfBranch();
     bTgtAddr = inst.getBranchTgt();
     predictTaken = inst.getBranchPrediction();
-    busy = true;
+    complete = false;
 
 
     if (isStore() ) {
       // storeAddr = inst.
-    }
-
-    // operand 1 (copy this for operand 2?)
-    if (rob.simulator.regs.robSlot[inst.getRegSrc1()] == -1) {
-      writeValue = rob.simulator.regs.getReg(inst.getRegSrc1());
-      writeValid = true;
-    } else {
-      // if rob has valid data at tag, get data from reorder buffer
-      // else send the tag
     }
 
 
@@ -142,12 +134,8 @@ public class ROBEntry {
       return opcode == IssuedInst.INST_TYPE.STORE;
   }
 
-  public boolean isBusy() {
-    return busy;
-  }
-
-  public void setBusy(boolean b) {
-      busy = b;
+  public void setBusy(boolean c) {
+      complete = c;
   }
     
   public boolean isBranch() {

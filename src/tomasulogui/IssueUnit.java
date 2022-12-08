@@ -27,31 +27,36 @@ public class IssueUnit {
 
       issuee = IssuedInst.createIssuedInst(simulator.getMemory().getInstAtAddr(simulator.getPC()));
       issuee.setPC(simulator.getPC());
-      // nearly PERFECT
+      // PERFECT
       switch (issuee.getOpcode()) {
         case ADD, ADDI, SUB, AND, ANDI, OR, ORI, XOR, XORI, SLL, SRL, SRA:
-            if (!simulator.alu.acceptIssue(issuee)) {
-              stall = false;
+            if (simulator.alu.rsAvail()) {
+              simulator.getROB().updateInstForIssue(issuee); 
+              simulator.alu.acceptIssue(issuee);
             } 
             break;
         case MUL:
-            break;
-        case DIV:
+            if (simulator.multiplier.rsAvail()) {
+              simulator.getROB().updateInstForIssue(issuee); 
+              simulator.multiplier.acceptIssue(issuee);
+            }
             break;
         case LOAD:
+            simulator.getROB().updateInstForIssue(issuee);
             break;
         case J, JAL, JR, JALR, BEQ, BNE, BLTZ, BLEZ, BGTZ, BGEZ:
+            simulator.getROB().updateInstForIssue(issuee);
             break;
-        default: //case NOP, HALT, STORE:
+        default: //case NOP, HALT, STORE, DIV:
             break;
-          }
+      }
           // increment pc
           
           
           
-          if (!stall) { // we might need to increment in case things become bad
-            simulator.getROB().updateInstForIssue(issuee);
-      }
+      // if (!stall) { // we might need to increment in case things become bad
+      //   simulator.getROB().updateInstForIssue(issuee); // which is a problem
+      // }
 
       // to issue, we make an IssuedInst, filling in what we know
       // We check the BTB, and put prediction if branch, updating PC

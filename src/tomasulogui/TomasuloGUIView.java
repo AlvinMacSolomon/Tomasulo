@@ -620,49 +620,60 @@ public class TomasuloGUIView extends FrameView {
         jLabel13.setName("jLabel13"); // NOI18N
 
         Adder1Dest.setEditable(false);
+        Adder1Dest.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder1Dest.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder1Dest.setName("Adder1Dest"); // NOI18N
 
         Adder1Tag1.setEditable(false);
-        Adder1Tag1.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        Adder1Tag1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder1Tag1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder1Tag1.setName("Adder1Tag1"); // NOI18N
 
         Adder1Tag2.setEditable(false);
+        Adder1Tag2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder1Tag2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder1Tag2.setName("Adder1Tag2"); // NOI18N
 
         Adder1Val1.setEditable(false);
+        Adder1Val1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder1Val1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder1Val1.setName("Adder1Val1"); // NOI18N
 
         Adder1Val2.setEditable(false);
+        Adder1Val2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder1Val2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder1Val2.setName("Adder1Val2"); // NOI18N
 
         Adder1Busy.setBorder(null);
+        Adder1Busy.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder1Busy.setName("Adder1Busy"); // NOI18N
 
         Adder2Busy.setBorder(null);
+        Adder2Busy.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder2Busy.setName("Adder2Busy"); // NOI18N
 
         Adder2Val1.setEditable(false);
+        Adder2Val1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder2Val1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder2Val1.setName("Adder2Val1"); // NOI18N
 
         Adder2Val2.setEditable(false);
+        Adder2Val2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder2Val2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder2Val2.setName("Adder2Val2"); // NOI18N
 
         Adder2Tag2.setEditable(false);
+        Adder2Tag2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder2Tag2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder2Tag2.setName("Adder2Tag2"); // NOI18N
 
         Adder2Tag1.setEditable(false);
+        Adder2Tag1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder2Tag1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder2Tag1.setName("Adder2Tag1"); // NOI18N
 
         Adder2Dest.setEditable(false);
+        Adder2Dest.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Adder2Dest.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Adder2Dest.setName("Adder2Dest"); // NOI18N
 
@@ -753,48 +764,60 @@ public class TomasuloGUIView extends FrameView {
         jLabel8.setName("jLabel8"); // NOI18N
 
         Mult1Dest.setEditable(false);
+        Mult1Dest.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult1Dest.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult1Dest.setName("Mult1Dest"); // NOI18N
 
         Mult1Tag1.setEditable(false);
+        Mult1Tag1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult1Tag1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult1Tag1.setName("Mult1Tag1"); // NOI18N
 
         Mult1Tag2.setEditable(false);
+        Mult1Tag2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult1Tag2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult1Tag2.setName("Mult1Tag2"); // NOI18N
 
         Mult1Val1.setEditable(false);
+        Mult1Val1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult1Val1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult1Val1.setName("Mult1Val1"); // NOI18N
 
         Mult1Val2.setEditable(false);
+        Mult1Val2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult1Val2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult1Val2.setName("Mult1Val2"); // NOI18N
 
         Mult2Tag2.setEditable(false);
+        Mult2Tag2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult2Tag2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult2Tag2.setName("Mult2Tag2"); // NOI18N
 
         Mult2Tag1.setEditable(false);
+        Mult2Tag1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult2Tag1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult2Tag1.setName("Mult2Tag1"); // NOI18N
 
         Mult2Dest.setEditable(false);
+        Mult2Dest.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult2Dest.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult2Dest.setName("Mult2Dest"); // NOI18N
 
         Mult1Busy.setBorder(null);
+        Mult1Busy.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult1Busy.setName("Mult1Busy"); // NOI18N
 
         Mult2Busy.setBorder(null);
+        Mult2Busy.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult2Busy.setName("Mult2Busy"); // NOI18N
 
         Mult2Val1.setEditable(false);
+        Mult2Val1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult2Val1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult2Val1.setName("Mult2Val1"); // NOI18N
 
         Mult2Val2.setEditable(false);
+        Mult2Val2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Mult2Val2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Mult2Val2.setName("Mult2Val2"); // NOI18N
 

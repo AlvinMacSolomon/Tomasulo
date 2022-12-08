@@ -49,8 +49,6 @@ public class ReorderBuffer {
       return false;
     }
     
-    
-    
     if (retiree.isHaltOpcode()) {
       halted = true;
       return true;
@@ -68,21 +66,12 @@ public class ReorderBuffer {
     } else if (retiree.isStore() && retiree.getStoreAddrValid() && retiree.getStoreDataValid()) {
         simulator.getMemory().setIntDataAtAddr(retiree.getStoreAddr(), retiree.getStoreData());
     } else {
-        if (!retiree.writeValid) shouldAdvance = false;
+        if (!retiree.complete) shouldAdvance = false;
         else if (frontQ == regs.robSlot[retiree.getWriteReg()]) { // if this tag is assigned to the destination register, write to it and clear the robslot
           regs.regs[retiree.getWriteReg()] = retiree.getWriteValue();
           regs.robSlot[retiree.getWriteReg()] = -1;
         }
     }
-
-    
-
-
-
-
-
-    // TODO - this is where you look at the type of instruction and
-    // figure out how to retire it properly
 
       // if mispredict branch, won't do normal advance
       if (shouldAdvance) {
@@ -93,13 +82,14 @@ public class ReorderBuffer {
 
     return false;
   }
+
   // TODO - call this somewhere
   public void readCDB(CDB cdb) {
     // check entire ROB for someone waiting on this data
     int t = cdb.dataTag;
     if (t != -1) {
       buff[t].writeValue = cdb.dataValue;
-      buff[t].writeValid = true;
+      buff[t].complete = true;
     }
 
 

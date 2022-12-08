@@ -26,7 +26,7 @@ public class LoadEntry {
     if (!addressValid) {
       if (cdb.getDataValid() && cdb.getDataTag() == addrTag) {
         address = cdb.getDataValue() + offset;
-        addressValid = true;
+         
       }
     }
   }

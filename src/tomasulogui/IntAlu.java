@@ -9,9 +9,17 @@ public class IntAlu extends FunctionalUnit{
 
 
   public int calculateResult(int station) {
-     // just placeholder code
-    int result=0;
-    return result;
+    ReservationStation s = stations[station];
+    switch (s.getFunction()) {
+      case ADD, ADDI: return s.data1 + s.data2;
+      case SUB:       return s.data1 - s.data2;
+      case AND, ANDI: return s.data1 & s.data2;
+      case OR, ORI:   return s.data1 | s.data2;
+      case XOR, XORI: return s.data1 ^ s.data2;
+      case SLL: return s.data1 << s.data2;
+      case SRL: return s.data1 >> s.data2;
+      default: return s.data1 >>> s.data2;
+    }
   }
 
   public int getExecCycles() {

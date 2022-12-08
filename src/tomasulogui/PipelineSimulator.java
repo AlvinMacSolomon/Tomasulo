@@ -386,7 +386,7 @@ public class PipelineSimulator {
       // here, we need to poll the functional units and see if they want to
       // writeback.  We pick longest running of those who want to use CDB and
       // notify them they can write
-      cdb.setDataValid(false);
+      // cdb.setDataValid(false);
 
       // hint: start with divider, and give it first chance of getting CDB
 

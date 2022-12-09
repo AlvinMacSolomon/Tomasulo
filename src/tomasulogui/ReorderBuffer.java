@@ -56,6 +56,8 @@ public class ReorderBuffer {
 
     boolean shouldAdvance = true;
 
+    readCDB(simulator.cdb);
+
     // this line should go somewhere down there
     if (retiree.isBranch() && retiree.branchMispredicted()) {
         shouldAdvance = false;      
@@ -90,6 +92,7 @@ public class ReorderBuffer {
     if (t != -1) {
       buff[t].writeValue = cdb.dataValue;
       buff[t].complete = true;
+      cdb.setDataValid(false);
     }
 
 

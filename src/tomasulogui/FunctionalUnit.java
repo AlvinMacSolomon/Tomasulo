@@ -4,6 +4,8 @@ public abstract class FunctionalUnit {
   PipelineSimulator simulator;
   ReservationStation[] stations = new ReservationStation[2];
   
+  int count = 0;
+
   public FunctionalUnit(PipelineSimulator sim) {
     simulator = sim;
     
@@ -20,12 +22,17 @@ public abstract class FunctionalUnit {
 
   public void execCycle(CDB cdb) {
     //todo - start executing, ask for CDB, etc.
-    int count = 0;
+    count++;
     int n = next();
     if (n == -1) return; // there's nothing in the stations
-    cdb.dataValue = calculateResult(n);
-    cdb.dataTag = stations[n].getDestTag();
-    cdb.setDataValid(true);
+    ReservationStation s = stations[n];
+    if (s.start == -1) s.start = count;
+    if (count >= s.start + getExecCycles()) {
+        cdb.setDataValid(true);
+        cdb.dataValue = calculateResult(n);
+        cdb.dataTag = s.getDestTag();
+        stations[n] = null;
+    }
   }
 
 
@@ -44,10 +51,10 @@ public abstract class FunctionalUnit {
 
   public int next() {
       if (stations[0] == null && stations[1] == null) return -1;
-      if (stations[0] != null) return 0;
-      if (stations[1] != null) return 1;
-
-      return 0;
+      if (stations[1] == null) return 0;
+      if (stations[0] == null) return 1;
+      if (stations[0].start < stations[1].start) return 0;
+      else return 1;
   }
 
 }

@@ -34,8 +34,11 @@ public abstract class FunctionalUnit {
     ReservationStation s = stations[n];
     if (s.start == -1) s.start = count;
     if (count >= s.start + getExecCycles()) {
-      if (canWriteback) stations[n] = null;
-      else {
+      if (canWriteback) {
+        stations[n] = null;
+        requestWriteback = false;
+        canWriteback = false;
+      } else {
         requestWriteback = true;
         writeData = calculateResult(n);
         writeTag = s.getDestTag();

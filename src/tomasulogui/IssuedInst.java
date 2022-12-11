@@ -288,4 +288,67 @@ public class IssuedInst {
       }
     }
 
+    public static int getOp(INST_TYPE type) {
+      switch (type) {
+        case NOP:
+            return Instruction.INST_NOP;
+        case HALT:
+            return Instruction.INST_HALT;
+        case ADD:
+            return Instruction.INST_ADD;
+        case ADDI:
+            return Instruction.INST_ADDI;
+        case SUB:
+            return Instruction.INST_SUB;
+        case MUL:
+            return Instruction.INST_MUL;
+        case DIV:
+            return Instruction.INST_DIV;
+        case AND:
+            return Instruction.INST_AND;
+        case ANDI:
+            return Instruction.INST_ANDI;
+        case OR:
+            return Instruction.INST_OR;
+        case ORI:
+            return Instruction.INST_ORI;
+        case XOR:
+            return Instruction.INST_XOR;
+        case XORI:
+            return Instruction.INST_XORI;
+        case SLL:
+            return Instruction.INST_SLL;
+        case SRL:
+            return Instruction.INST_SRL;
+        case SRA:
+            return Instruction.INST_SRA;
+        case LOAD:
+            return Instruction.INST_LW;
+        case STORE:
+            return Instruction.INST_SW;
+        case J:
+            return Instruction.INST_J;
+        case JAL:
+            return Instruction.INST_JAL;
+        case JR:
+            return Instruction.INST_JR;
+        case JALR:
+            return Instruction.INST_JALR;
+        case BEQ:
+            return Instruction.INST_BEQ;
+        case BNE:
+            return Instruction.INST_BNE;
+        case BLTZ:
+            return Instruction.INST_BLTZ;
+        case BLEZ:
+            return Instruction.INST_BLEZ;
+        case BGTZ:
+            return Instruction.INST_BGTZ;
+        case BGEZ:
+            return Instruction.INST_BGEZ;
+        default:
+          throw new MIPSException("IssueInst getOpcode: no matching opcode");
+      }
+    }
+
   }

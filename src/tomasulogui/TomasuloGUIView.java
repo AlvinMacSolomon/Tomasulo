@@ -2357,7 +2357,7 @@ public class TomasuloGUIView extends FrameView {
             }
             else {
                 view.pc.setText(Integer.toString(entry.instPC));
-                view.inst.setText(Integer.toString(entry.instPC));
+                view.inst.setText(Instruction.getNameFromOpcode(IssuedInst.getOp(entry.getOpcode())));
                 view.dest.setText(Integer.toString(entry.writeReg));
                 view.value.setText(Integer.toString(entry.writeValue));
                 view.predict.setText(Boolean.toString(entry.predictTaken));

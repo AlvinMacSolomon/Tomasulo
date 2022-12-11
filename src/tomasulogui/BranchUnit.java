@@ -14,10 +14,10 @@ public class BranchUnit
         ReservationStation s = stations[station];
         switch (s.getFunction()) {
             case BEQ:
-                // s.
+                
             case BNE:
             case BLTZ:
-            case BLEZ:
+            case BLEZ: 
             case BGEZ:
             case BGTZ:
                 break;

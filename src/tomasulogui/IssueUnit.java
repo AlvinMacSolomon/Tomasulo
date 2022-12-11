@@ -19,11 +19,7 @@ public class IssueUnit {
       // 1. checking if ROB and Reservation Station available
       // 2. issuing to reservation station, if no structural hazard
 
-      boolean stall = false;
-
-      if (simulator.getROB().isFull()) {
-          // stall
-      }
+      if (simulator.getROB().isFull()) return;
 
       issuee = IssuedInst.createIssuedInst(simulator.getMemory().getInstAtAddr(simulator.getPC()));
       issuee.setPC(simulator.getPC());
@@ -42,7 +38,10 @@ public class IssueUnit {
             }
             break;
         case LOAD:
-            simulator.getROB().updateInstForIssue(issuee);
+            if (simulator.loader.isReservationStationAvail()) {
+              simulator.getROB().updateInstForIssue(issuee);
+              simulator.loader.acceptIssue(issuee);
+            }
             break;
         case J, JAL, JR, JALR, BEQ, BNE, BLTZ, BLEZ, BGTZ, BGEZ:
             simulator.getROB().updateInstForIssue(issuee);
@@ -52,12 +51,6 @@ public class IssueUnit {
       }
           // increment pc
           
-          
-          
-      // if (!stall) { // we might need to increment in case things become bad
-      //   simulator.getROB().updateInstForIssue(issuee); // which is a problem
-      // }
-
       // to issue, we make an IssuedInst, filling in what we know
       // We check the BTB, and put prediction if branch, updating PC
       //     if pred taken, incr PC otherwise

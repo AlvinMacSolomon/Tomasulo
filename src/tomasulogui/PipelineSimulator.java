@@ -395,18 +395,21 @@ public class PipelineSimulator {
         cdb.setDataTag(loader.getWriteTag());
         cdb.setDataValue(loader.getWriteData());
         cdb.setDataValid(true);
-      }
-      if (alu.isRequestingWriteback()) {
+      } else if (alu.isRequestingWriteback()) {
         alu.setCanWriteback();
         cdb.setDataTag(alu.getWriteTag());
         cdb.setDataValue(alu.getWriteData());
         cdb.setDataValid(true);
-      }
-      if (multiplier.isRequestingWriteback()) {
+      } else if (multiplier.isRequestingWriteback()) {
         multiplier.setCanWriteback();
         cdb.setDataValid(true);
         cdb.setDataTag(multiplier.getWriteTag());
         cdb.setDataValue(multiplier.getWriteData());
+      } else if (branchUnit.isRequestingWriteback()) {
+        branchUnit.setCanWriteback();
+        cdb.setDataValid(true);
+        cdb.setDataTag(branchUnit.getWriteTag());
+        cdb.setDataValue(branchUnit.getWriteData());
       }
 
     }

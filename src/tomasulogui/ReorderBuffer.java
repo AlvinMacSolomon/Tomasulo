@@ -65,8 +65,9 @@ public class ReorderBuffer {
         java.util.Arrays.fill(buff, -1);
         frontQ = rearQ = 0;
         simulator.squashAllInsts();
-    } else if (retiree.isStore() && retiree.getStoreAddrValid() && retiree.getStoreDataValid()) {
-        simulator.getMemory().setIntDataAtAddr(retiree.getStoreAddr(), retiree.getStoreData());
+    } else if (retiree.isStore()) {
+        if (!retiree.getStoreAddrValid() || !retiree.getStoreDataValid()) shouldAdvance = false;
+        else simulator.getMemory().setIntDataAtAddr(retiree.getStoreAddr(), retiree.getStoreData());
     } else {
         if (!retiree.complete) shouldAdvance = false;
         else if (frontQ == regs.robSlot[retiree.getWriteReg()]) { // if this tag is assigned to the destination register, write to it and clear the robslot
@@ -89,10 +90,10 @@ public class ReorderBuffer {
   public void readCDB(CDB cdb) {
     // check entire ROB for someone waiting on this data
     int t = cdb.dataTag;
-    if (t != -1) {
+    if (t != -1 && cdb.getDataValid()) {
       buff[t].writeValue = cdb.dataValue;
       buff[t].complete = true;
-      cdb.setDataValid(false);
+      // cdb.setDataValid(false);
     }
 
 

@@ -6,6 +6,12 @@ public abstract class FunctionalUnit {
   
   int count = 0;
 
+  boolean requestWriteback = false;
+  boolean canWriteback = false;
+  int writebackEntry = -1;
+  int writeTag = -1;
+  int writeData = -1;
+
   public FunctionalUnit(PipelineSimulator sim) {
     simulator = sim;
     
@@ -28,10 +34,12 @@ public abstract class FunctionalUnit {
     ReservationStation s = stations[n];
     if (s.start == -1) s.start = count;
     if (count >= s.start + getExecCycles()) {
-        cdb.setDataValid(true);
-        cdb.dataValue = calculateResult(n);
-        cdb.dataTag = s.getDestTag();
-        stations[n] = null;
+      if (canWriteback) stations[n] = null;
+      else {
+        requestWriteback = true;
+        writeData = calculateResult(n);
+        writeTag = s.getDestTag();
+      }
     }
   }
 
@@ -55,6 +63,22 @@ public abstract class FunctionalUnit {
       if (stations[0] == null) return 1;
       if (stations[0].start < stations[1].start) return 0;
       else return 1;
+  }
+
+  public boolean isRequestingWriteback() {
+    return requestWriteback;
+  }
+
+  public void setCanWriteback() {
+    canWriteback = true;
+  }
+
+  public int getWriteTag() {
+    return writeTag;
+  }
+
+  public int getWriteData() {
+    return writeData;
   }
 
 }

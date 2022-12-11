@@ -386,17 +386,28 @@ public class PipelineSimulator {
       // here, we need to poll the functional units and see if they want to
       // writeback.  We pick longest running of those who want to use CDB and
       // notify them they can write
-      // cdb.setDataValid(false);
+      cdb.setDataValid(false);
 
       // hint: start with divider, and give it first chance of getting CDB
 
-      //    fill this in and copy for every FU
-      // if (multiplier.isRequestingWB()) {
-      //   multiplier.setCanWB();
-      //   cdb.setDataValid( );
-      //   cdb.setDataTag( );
-      //   cdb.setDataValue( );
-      // }
+      if (loader.isRequestingWriteback()) {
+        loader.setCanWriteback();
+        cdb.setDataTag(loader.getWriteTag());
+        cdb.setDataValue(loader.getWriteData());
+        cdb.setDataValid(true);
+      }
+      if (alu.isRequestingWriteback()) {
+        alu.setCanWriteback();
+        cdb.setDataTag(alu.getWriteTag());
+        cdb.setDataValue(alu.getWriteData());
+        cdb.setDataValid(true);
+      }
+      if (multiplier.isRequestingWriteback()) {
+        multiplier.setCanWriteback();
+        cdb.setDataValid(true);
+        cdb.setDataTag(multiplier.getWriteTag());
+        cdb.setDataValue(multiplier.getWriteData());
+      }
 
     }
 

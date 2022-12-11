@@ -119,7 +119,12 @@ public class ROBEntry {
 
 
     if (isStore() ) {
-      // storeAddr = inst.
+        storeAddr = inst.getRegSrc1();
+        storeAddrTag = inst.getRegSrc1Tag();
+        storeAddrValid = inst.getRegSrc1Valid();
+        storeData = inst.getRegSrc2();
+        storeDataTag = inst.getRegSrc2Tag();
+        storeDataValid = inst.getRegSrc2Valid();
     }
 
 

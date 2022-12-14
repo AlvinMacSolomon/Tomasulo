@@ -45,24 +45,31 @@ public class ReservationStation {
     return function;
   }
 
-  public void snoop(CDB cdb) {
-    // TODO - add code to snoop on CDB each cycle
+  public void snoopy(CDB cdb) { // for FUs to snoop on cdb
+      if (!data1Valid && cdb.getDataValid() && cdb.getDataTag() == tag1) {
+          data1 = cdb.getDataValue();
+          data1Valid = true;
+      } else if (!data2Valid && cdb.getDataValid() && cdb.getDataTag() == tag2) {
+          data2 = cdb.getDataValue();
+          data2Valid = true;
+    }
   }
 
   public boolean isReady() {
     return data1Valid && data2Valid;
   }
 
+  //NOT COOL.
   public void loadInst(IssuedInst inst) {
     // insert inst into reservation station
-    boolean i = inst.getImmediate() != -1; //cool
-    data1 = inst.regSrc1;
-    data2 = i ? inst.immediate : inst.regSrc2;
+    boolean i = inst.getImmediate() != -1; 
+    data1 = inst.regSrc1Value; // val1
+    data2 = i ? inst.immediate : inst.regSrc2Value;
+    destTag = inst.regDestTag;
     tag1 = inst.regSrc1Tag;
     tag2 = inst.regSrc2Tag;
     data1Valid = inst.regSrc1Valid;
     data2Valid = i ? true : inst.regSrc2Valid;
-    destTag = inst.regDestTag;
     function = inst.opcode;
     if (inst.isBranch()) {
       predictedTaken = inst.getBranchPrediction();

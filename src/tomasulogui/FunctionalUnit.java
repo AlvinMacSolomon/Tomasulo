@@ -38,12 +38,14 @@ public abstract class FunctionalUnit {
         stations[n] = null;
         requestWriteback = false;
         canWriteback = false;
-      } else {
+      } else if (s.data1Valid && s.data2Valid) {
         requestWriteback = true;
         writeData = calculateResult(n);
         writeTag = s.getDestTag();
       }
     }
+    if (stations[0] != null) stations[0].snoopy(cdb);
+    if (stations[1] != null) stations[1].snoopy(cdb);
   }
 
 

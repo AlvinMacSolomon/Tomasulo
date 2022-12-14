@@ -80,7 +80,7 @@ public class ROBEntry {
     // update the instruction
       // for the source regs
       // 1. it's either in the register file
-      // 2. it could be in the rob but complete 
+      // 2. it could be in the rob but complete
       // 3. it could also be in the rob but not complete bc fu is still working (in which case only send tag)
 
       if (inst.regSrc1Used) {
@@ -90,23 +90,26 @@ public class ROBEntry {
             inst.setRegSrc1Valid();
         } else {
             if (rob.getEntryByTag(tag).complete) {
-              inst.setRegSrc1Value(rob.getEntryByTag(tag).getWriteValue());
+              inst.setRegSrc1Value(rob.getEntryByTag(tag).getWriteValue()); 
               inst.setRegSrc1Valid();
             } else inst.setRegSrc1Tag(tag); // send the tag
         }
       }
       if (inst.regSrc2Used) {
         int tag = rob.getTagForReg(inst.regSrc2);
-        if (tag == -1){
+        if (tag == -1) {
             inst.setRegSrc2Value(rob.regs.getReg(inst.regSrc2));
             inst.setRegSrc2Valid();
         } else {
             if (rob.getEntryByTag(tag).complete) {
-              inst.setRegSrc1Value(rob.getEntryByTag(tag).getWriteValue());
+              inst.setRegSrc2Value(rob.getEntryByTag(tag).getWriteValue());
               inst.setRegSrc2Valid();
             } else inst.setRegSrc2Tag(tag); // send the tag
         }
       }
+
+      if (inst.regDestUsed) rob.setTagForReg(inst.getRegDest(), frontQ);
+
     
     // update the field
     writeReg = inst.getRegDest();

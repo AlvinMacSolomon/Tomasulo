@@ -1,5 +1,7 @@
 package tomasulogui;
 
+import tomasulogui.IssuedInst.INST_TYPE;
+
 public class ROBEntry {
   ReorderBuffer rob;
 
@@ -75,8 +77,9 @@ public class ROBEntry {
     instPC = inst.getPC(); 
     inst.setRegDestTag(frontQ);
 
+    if (opcode == INST_TYPE.HALT) return;
+    
     rob.simulator.btb.predictBranch(inst);
-
     // update the instruction
       // for the source regs
       // 1. it's either in the register file
@@ -108,6 +111,10 @@ public class ROBEntry {
         }
       }
 
+      if (inst.getOpcode() == INST_TYPE.JAL || inst.getOpcode() == INST_TYPE.JALR) {
+          inst.regDest = 31;
+          rob.simulator.issue.jalhappened = true;
+      }
       if (inst.regDestUsed) rob.setTagForReg(inst.getRegDest(), frontQ);
 
     
@@ -118,14 +125,14 @@ public class ROBEntry {
     branch = inst.determineIfBranch();
     bTgtAddr = inst.getBranchTgt();
     predictTaken = inst.getBranchPrediction();
-    complete = false;
+    complete = inst.getOpcode() == INST_TYPE.NOP;
 
 
     if (isStore() ) {
-        storeAddr = inst.getRegSrc1();
+        storeAddr = inst.getRegSrc1Value() + inst.getImmediate();
         storeAddrTag = inst.getRegSrc1Tag();
         storeAddrValid = inst.getRegSrc1Valid();
-        storeData = inst.getRegSrc2();
+        storeData = writeValue = inst.getRegSrc2Value();
         storeDataTag = inst.getRegSrc2Tag();
         storeDataValid = inst.getRegSrc2Valid();
     }

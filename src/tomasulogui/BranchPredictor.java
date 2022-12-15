@@ -32,7 +32,7 @@ public class BranchPredictor {
       prediction = true;
     }
     else {
-      if (counters[pcOffset] > 1 && tgt[pcOffset] != 1) {
+      if (counters[pcOffset] > 1 && tgt[pcOffset] != -1) {
         prediction = true;
       }
       else {

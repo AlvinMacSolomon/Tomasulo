@@ -1,5 +1,7 @@
 package tomasulogui;
 
+import tomasulogui.IssuedInst.INST_TYPE;
+
 public class ReservationStation {
   PipelineSimulator simulator;
 
@@ -62,6 +64,7 @@ public class ReservationStation {
   //NOT COOL.
   public void loadInst(IssuedInst inst) {
     // insert inst into reservation station
+    function = inst.opcode;
     boolean i = inst.getImmediate() != -1; 
     data1 = inst.regSrc1Value; // val1
     data2 = i ? inst.immediate : inst.regSrc2Value;
@@ -70,11 +73,11 @@ public class ReservationStation {
     tag2 = inst.regSrc2Tag;
     data1Valid = inst.regSrc1Valid;
     data2Valid = i ? true : inst.regSrc2Valid;
-    function = inst.opcode;
     if (inst.isBranch()) {
+      addressValid = function == INST_TYPE.J || function == INST_TYPE.JAL;
       predictedTaken = inst.getBranchPrediction();
       address = inst.getBranchTgt();
-      // addressTag = inst.get
+      // addressTag = ins
     }
   }
 }

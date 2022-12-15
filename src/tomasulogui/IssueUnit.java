@@ -10,6 +10,8 @@ public class IssueUnit {
 
     EXEC_TYPE t;
 
+    boolean jalhappened = false;
+
     public IssueUnit(PipelineSimulator sim) {
       simulator = sim;
     }
@@ -19,7 +21,7 @@ public class IssueUnit {
       // 1. checking if ROB and Reservation Station available
       // 2. issuing to reservation station, if no structural hazard
 
-      if (simulator.getROB().isFull()) return;
+      if (simulator.getROB().isFull() || jalhappened) return;
 
       issuee = IssuedInst.createIssuedInst(simulator.getMemory().getInstAtAddr(simulator.getPC()));
       issuee.setPC(simulator.getPC());
@@ -33,8 +35,8 @@ public class IssueUnit {
                   issuee.regSrc1Valid = true;
               }
               if (simulator.cdb.getDataValid() && simulator.cdb.getDataTag() == issuee.getRegSrc2Tag()) {
-                issuee.regSrc2Value = simulator.cdb.getDataValue();
-                issuee.regSrc2Valid = true;
+                  issuee.regSrc2Value = simulator.cdb.getDataValue();
+                  issuee.regSrc2Valid = true;
               }
               simulator.alu.acceptIssue(issuee);
             } 
@@ -56,14 +58,53 @@ public class IssueUnit {
         case LOAD:
             if (simulator.loader.isReservationStationAvail()) {
               simulator.getROB().updateInstForIssue(issuee);// maybe check for cdb too
+              if (simulator.cdb.getDataValid() && simulator.cdb.getDataTag() == issuee.getRegSrc1Tag()) {
+                issuee.regSrc1Value = simulator.cdb.getDataValue();
+                issuee.regSrc1Valid = true;
+            }
+            if (simulator.cdb.getDataValid() && simulator.cdb.getDataTag() == issuee.getRegSrc2Tag()) {
+                issuee.regSrc2Value = simulator.cdb.getDataValue();
+                issuee.regSrc2Valid = true;
+            }
               simulator.loader.acceptIssue(issuee);
             }
             break;
-        case J, JAL, JR, JALR, BEQ, BNE, BLTZ, BLEZ, BGTZ, BGEZ:
+        // case J, JAL, JR, JALR:
+        //     simulator.getROB().updateInstForIssue(issuee);
+
+        case BEQ, BNE, BLTZ, BLEZ, BGTZ, BGEZ:
+        if (simulator.branchUnit.rsAvail()) {
             simulator.getROB().updateInstForIssue(issuee);
+            if (simulator.cdb.getDataValid() && simulator.cdb.getDataTag() == issuee.getRegSrc1Tag()) {
+              issuee.regSrc1Value = simulator.cdb.getDataValue();
+              issuee.regSrc1Valid = true;
+            }
+            if (simulator.cdb.getDataValid() && simulator.cdb.getDataTag() == issuee.getRegSrc2Tag()) {
+              issuee.regSrc2Value = simulator.cdb.getDataValue();
+              issuee.regSrc2Valid = true;
+            }
+            simulator.branchUnit.acceptIssue(issuee);
+          }
             break;
-        default: //case NOP, HALT, STORE, DIV:
+        case STORE:
+            simulator.getROB().updateInstForIssue(issuee);
+            if (simulator.cdb.getDataValid() && simulator.cdb.getDataTag() == issuee.getRegSrc1Tag()) {
+              issuee.regSrc1Value = simulator.cdb.getDataValue();
+              issuee.regSrc1Valid = true;
+            }
+            if (simulator.cdb.getDataValid() && simulator.cdb.getDataTag() == issuee.getRegSrc2Tag()) {
+              issuee.regSrc2Value = simulator.cdb.getDataValue();
+              issuee.regSrc2Valid = true;
+            }
+            
             break;
+        case JR, JALR:
+            if (issuee.getRegSrc1Tag() != -1) break;
+        default:
+            simulator.getROB().updateInstForIssue(issuee);
+            // simulator.setPC(simulator.getPC() + 4);
+        // default:
+            
       }
           // increment pc
           

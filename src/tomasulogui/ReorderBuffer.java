@@ -1,5 +1,7 @@
 package tomasulogui;
 
+import tomasulogui.IssuedInst.INST_TYPE;
+
 // ISSUE. XEUTECE. COMPLETE.
 
 public class ReorderBuffer {
@@ -59,21 +61,24 @@ public class ReorderBuffer {
     readCDB(simulator.cdb);
 
     // this line should go somewhere down there
-    if (retiree.isBranch() && retiree.branchMispredicted()) {
-        shouldAdvance = false;      
-        simulator.setPC(retiree.getPredictTaken() ? retiree.getInstPC() + 4 : retiree.getbTgtAddr());
-        java.util.Arrays.fill(buff, -1);
-        frontQ = rearQ = 0;
-        simulator.squashAllInsts();
-    } else if (retiree.isStore()) {
-        if (!retiree.getStoreAddrValid() || !retiree.getStoreDataValid()) shouldAdvance = false;
-        else simulator.getMemory().setIntDataAtAddr(retiree.getStoreAddr(), retiree.getStoreData());
-    } else {
-        if (!retiree.complete) shouldAdvance = false;
-        else if (frontQ == regs.robSlot[retiree.getWriteReg()]) { // if this tag is assigned to the destination register, write to it and clear the robslot
+    if (retiree.getOpcode() == INST_TYPE.JAL || retiree.getOpcode() == INST_TYPE.JALR) {
+        regs.setReg(31, retiree.instPC + 4);
+        simulator.issue.jalhappened = false;
+    }
+    if (retiree.isBranch() || retiree.getOpcode() == INST_TYPE.NOP) {
+        if (retiree.branchMispredicted()) {
+            shouldAdvance = false;      
+            simulator.setPC(retiree.getPredictTaken() ? retiree.getInstPC() + 4 : retiree.getbTgtAddr());
+            java.util.Arrays.fill(buff, null);
+            frontQ = rearQ = 0;
+            simulator.squashAllInsts();
+        } 
+    } else if (!retiree.complete) shouldAdvance = false;
+      else if (retiree.isStore()) {
+          simulator.getMemory().setIntDataAtAddr(retiree.getStoreAddr(), retiree.getStoreData());
+    } else if (!retiree.isBranch() && frontQ == regs.robSlot[retiree.getWriteReg()]) { // if this tag is assigned to the destination register, write to it and clear the robslot
           regs.regs[retiree.getWriteReg()] = retiree.getWriteValue();
           regs.robSlot[retiree.getWriteReg()] = -1;
-        }
     }
 
       // if mispredict branch, won't do normal advance
@@ -86,14 +91,24 @@ public class ReorderBuffer {
     return false;
   }
 
-  // TODO - call this somewhere
   public void readCDB(CDB cdb) {
     // check entire ROB for someone waiting on this data
     int t = cdb.dataTag;
     if (t != -1 && cdb.getDataValid()) {
       buff[t].writeValue = cdb.dataValue;
       buff[t].complete = true;
-      // cdb.setDataValid(false);
+      for (ROBEntry e : buff) {
+        if (e != null && e.isStore()) {
+            if (t == e.storeAddrTag) {
+                e.storeAddr = cdb.getDataValue();
+                e.storeAddrValid = true;
+            } else if (t == e.storeDataTag) {
+                e.storeData = cdb.getDataValue();
+                e.storeDataValid = true;
+            }
+            if (e.storeAddrValid && e.storeDataValid) e.complete = true;
+        }
+      }
     }
 
 

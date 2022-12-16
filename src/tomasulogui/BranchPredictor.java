@@ -50,7 +50,7 @@ public class BranchPredictor {
     }
     else if (issued.getOpcode() == IssuedInst.INST_TYPE.JR ||
              issued.getOpcode() == IssuedInst.INST_TYPE.JALR) {
-              tgtAddress = issued.regSrc1Value;
+                tgtAddress = issued.regSrc1Value;
       // if (tgt[pcOffset] != -1) {
       //   tgtAddress = tgt[pcOffset];
       // }

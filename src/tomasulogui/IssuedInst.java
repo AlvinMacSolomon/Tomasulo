@@ -124,10 +124,12 @@ public class IssuedInst {
 
     public void setRegSrc1Value(int val) {
       regSrc1Value = val;
+      regSrc1Valid = true;
     }
 
     public void setRegSrc2Value(int val) {
       regSrc2Value = val;
+      regSrc2Valid = true;
     }
 
     public void setRegSrc1Tag(int tag) {

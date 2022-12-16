@@ -9,16 +9,10 @@ public class IntMult extends FunctionalUnit {
     }
 
     public int calculateResult(int station) {
-        int result = 0;
-        return result;
-
+        return stations[station].data1 * stations[station].data2;
     }
 
     public int getExecCycles() {
         return EXEC_CYCLES;
-    }
-
-    public void squashAll() {
-        stations[0] = stations[1] = null;
     }
 }

@@ -15,6 +15,10 @@ public class CDB {
   }
   public void setDataValid(boolean valid) {
     dataValid = valid;
+    if (!valid) {
+        dataValue = -1;
+        dataTag = -1;
+    }
   }
 
   public int getDataTag () {
@@ -29,9 +33,11 @@ public class CDB {
   }
   public void setDataValue (int value) {
     dataValue = value;
+    dataValid = true;
   }
   public void squashAll() {
     dataValid = false;
+    dataTag = dataValue = -1;
   }
 
 }

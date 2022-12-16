@@ -1,5 +1,7 @@
 package tomasulogui;
 
+import tomasulogui.IssuedInst.INST_TYPE;
+
 public class IssueUnit {
   private enum EXEC_TYPE {
     NONE, LOAD, ALU, MULT, DIV, BRANCH} ;
@@ -11,6 +13,7 @@ public class IssueUnit {
     EXEC_TYPE t;
 
     boolean jalhappened = false;
+    boolean isHalt = false;
 
     public IssueUnit(PipelineSimulator sim) {
       simulator = sim;
@@ -21,9 +24,12 @@ public class IssueUnit {
       // 1. checking if ROB and Reservation Station available
       // 2. issuing to reservation station, if no structural hazard
 
-      if (simulator.getROB().isFull() || jalhappened) return;
+      if (simulator.getROB().isFull() || jalhappened || simulator.isHalted) return;
 
       issuee = IssuedInst.createIssuedInst(simulator.getMemory().getInstAtAddr(simulator.getPC()));
+      // if (issuee.getOpcode() == INST_TYPE.HALT) {
+      //   isHalt = true;
+      // }
       issuee.setPC(simulator.getPC());
      
       switch (issuee.getOpcode()) {
@@ -99,7 +105,7 @@ public class IssueUnit {
             
             break;
         case JR, JALR:
-            if (issuee.getRegSrc1Tag() != -1) break;
+            if (simulator.regs.getSlotForReg(issuee.getRegSrc1()) != -1) break;
         default:
             simulator.getROB().updateInstForIssue(issuee);
             // simulator.setPC(simulator.getPC() + 4);

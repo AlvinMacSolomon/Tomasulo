@@ -67,11 +67,12 @@ public class ReorderBuffer {
     }
     if (retiree.isBranch() || retiree.getOpcode() == INST_TYPE.NOP) {
         if (retiree.branchMispredicted()) {
-            shouldAdvance = false;      
+            shouldAdvance = false;
             simulator.setPC(retiree.getPredictTaken() ? retiree.getInstPC() + 4 : retiree.getbTgtAddr());
             java.util.Arrays.fill(buff, null);
             frontQ = rearQ = 0;
             simulator.squashAllInsts();
+            simulator.issue.jalhappened = false;
         } 
     } else if (!retiree.complete) shouldAdvance = false;
       else if (retiree.isStore()) {
@@ -94,19 +95,19 @@ public class ReorderBuffer {
   public void readCDB(CDB cdb) {
     // check entire ROB for someone waiting on this data
     int t = cdb.dataTag;
-    if (t != -1 && cdb.getDataValid()) {
+    if (t != -1 && cdb.getDataValid() && buff[t] != null) {
       buff[t].writeValue = cdb.dataValue;
       buff[t].complete = true;
       for (ROBEntry e : buff) {
         if (e != null && e.isStore()) {
-            if (t == e.storeAddrTag) {
-                e.storeAddr = cdb.getDataValue();
-                e.storeAddrValid = true;
-            } else if (t == e.storeDataTag) {
-                e.storeData = cdb.getDataValue();
-                e.storeDataValid = true;
-            }
-            if (e.storeAddrValid && e.storeDataValid) e.complete = true;
+          if (t == e.storeAddrTag) {
+            e.storeAddr = cdb.getDataValue();
+            e.storeAddrValid = true;
+          } else if (t == e.storeDataTag) {
+            e.storeData = cdb.getDataValue();
+            e.storeDataValid = true;
+          }
+          if (e.storeAddrValid && e.storeDataValid) e.complete = true;
         }
       }
     }

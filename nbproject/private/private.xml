@@ -7,9 +7,12 @@
             <file>file:/C:/Users/alvinsolomon/Desktop/Tomasulo/src/tomasulogui/PipelineSimulator.java</file>
             <file>file:/C:/Users/alvinsolomon/Desktop/Tomasulo/src/tomasulogui/ROBRowGUI.java</file>
             <file>file:/C:/Users/alvinsolomon/Desktop/Tomasulo/src/tomasulogui/ReorderBuffer.java</file>
+            <file>file:/C:/Users/alvinsolomon/Desktop/Tomasulo/src/tomasulogui/BranchUnit.java</file>
             <file>file:/C:/Users/alvinsolomon/Desktop/Tomasulo/src/tomasulogui/IssuedInst.java</file>
+            <file>file:/C:/Users/alvinsolomon/Desktop/Tomasulo/src/tomasulogui/BranchPredictor.java</file>
             <file>file:/C:/Users/alvinsolomon/Desktop/Tomasulo/src/tomasulogui/IssueUnit.java</file>
             <file>file:/C:/Users/alvinsolomon/Desktop/Tomasulo/src/tomasulogui/ProgramCounter.java</file>
+            <file>file:/C:/Users/alvinsolomon/Desktop/Tomasulo/src/tomasulogui/ROBEntry.java</file>
         </group>
     </open-files>
 </project-private>

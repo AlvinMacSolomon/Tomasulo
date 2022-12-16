@@ -29,7 +29,7 @@ public class IssuedInst {
 
     boolean branch = false;
     boolean branchPrediction = false;
-    int branchTgt = -1;
+    int branchTgt = -34;
 
     public IssuedInst() {
     }

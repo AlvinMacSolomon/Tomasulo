@@ -65,19 +65,23 @@ public class ReservationStation {
   public void loadInst(IssuedInst inst) {
     // insert inst into reservation station
     function = inst.opcode;
-    boolean i = inst.getImmediate() != -1; 
+    boolean i = inst.getImmediate() != -1 && function != INST_TYPE.BEQ && function != INST_TYPE.BNE; 
     data1 = inst.regSrc1Value; // val1
-    data2 = i ? inst.immediate : inst.regSrc2Value;
+    data2 = i ? inst.immediate : inst.regSrc2Value; 
     destTag = inst.regDestTag;
     tag1 = inst.regSrc1Tag;
     tag2 = inst.regSrc2Tag;
     data1Valid = inst.regSrc1Valid;
     data2Valid = i ? true : inst.regSrc2Valid;
-    if (inst.isBranch()) {
-      addressValid = function == INST_TYPE.J || function == INST_TYPE.JAL;
-      predictedTaken = inst.getBranchPrediction();
-      address = inst.getBranchTgt();
+    // if (inst.isBranch()) {
+      // addressValid = function == INST_TYPE.J || function == INST_TYPE.JAL;
+      // predictedTaken = inst.getBranchPrediction();
+      // address = inst.getBranchTgt();
+      // if (function == INST_TYPE.BEQ || function == INST_TYPE.BNE) }{
+      //   data2 = inst.regSrc2Value;
+      //   data2Valid = inst.reg
+      // }// something about data2
       // addressTag = ins
-    }
+    // }
   }
 }

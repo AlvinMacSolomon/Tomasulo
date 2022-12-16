@@ -12,7 +12,8 @@ public class BranchUnit
     public int calculateResult(int station) {
         // cool
         ReservationStation s = stations[station];
-        boolean take = switch (s.getFunction()) {
+        simulator.reorder.getEntryByTag(s.destTag)
+            .setBranchTaken(switch (s.getFunction()) {
             case BEQ  -> s.getData1() == s.getData2();
             case BNE  -> s.getData1() != s.getData2();
             case BLEZ -> s.getData1() <= 0;
@@ -20,9 +21,9 @@ public class BranchUnit
             case BGEZ -> s.getData1() >= 0;
             case BGTZ -> s.getData1() >  0;
             default -> true;
-        };
-        if (take != s.predictedTaken) 
-        if (take) return s.address;
+        });
+        // if (take != s.predictedTaken) 
+        // if (take) return s.address;
         return 0;
     }
     // jumps just sort of happen
